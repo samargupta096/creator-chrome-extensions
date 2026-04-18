@@ -1,0 +1,291 @@
+/* PostVault — Extension-specific styles */
+
+/* Override accent to Green for PostVault branding */
+.header-title h1 {
+  background: linear-gradient(135deg, var(--text-primary), var(--accent-green)) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+}
+
+/* Search */
+.search-bar {
+  margin-bottom: 12px;
+}
+
+/* Category Filter */
+.category-filter {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 12px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+
+.category-filter::-webkit-scrollbar {
+  height: 3px;
+}
+
+.cat-btn {
+  padding: 5px 10px;
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+  background: var(--bg-card);
+  color: var(--text-tertiary);
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all var(--transition-fast);
+  font-family: inherit;
+}
+
+.cat-btn:hover {
+  color: var(--text-secondary);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.cat-btn.active {
+  background: var(--accent-green);
+  color: white;
+  border-color: var(--accent-green);
+}
+
+/* Snippet List */
+.snippet-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 12px;
+  max-height: 320px;
+  overflow-y: auto;
+}
+
+.snippet-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 12px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  backdrop-filter: blur(10px);
+  transition: all var(--transition-fast);
+  cursor: pointer;
+  animation: slideUp 0.3s ease both;
+}
+
+.snippet-item:hover {
+  border-color: rgba(255, 255, 255, 0.12);
+  background: var(--bg-card-hover);
+}
+
+.snippet-cat-icon {
+  font-size: 14px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.snippet-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.snippet-text {
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--text-secondary);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  word-break: break-word;
+}
+
+.snippet-meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 4px;
+  font-size: 10px;
+  color: var(--text-tertiary);
+}
+
+.snippet-tag {
+  padding: 1px 6px;
+  background: rgba(108, 92, 231, 0.1);
+  border-radius: 10px;
+  font-size: 9px;
+  color: var(--accent-purple-light);
+}
+
+.snippet-platform-badge {
+  padding: 1px 6px;
+  background: rgba(0, 184, 148, 0.1);
+  border-radius: 10px;
+  font-size: 9px;
+  color: var(--accent-green);
+}
+
+.snippet-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+.snippet-actions .btn {
+  padding: 4px 6px;
+  font-size: 11px;
+  min-width: 0;
+}
+
+/* Stagger */
+.snippet-item:nth-child(1) { animation-delay: 0.02s; }
+.snippet-item:nth-child(2) { animation-delay: 0.04s; }
+.snippet-item:nth-child(3) { animation-delay: 0.06s; }
+.snippet-item:nth-child(4) { animation-delay: 0.08s; }
+.snippet-item:nth-child(5) { animation-delay: 0.1s; }
+
+/* Add Snippet Area */
+.add-snippet-area {
+  margin-bottom: 8px;
+}
+
+/* Add Form */
+.add-form {
+  margin-top: 8px;
+}
+
+.add-form-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.add-form-actions .btn {
+  flex: 1;
+}
+
+/* Variant Section */
+.variant-section {
+  margin-top: 8px;
+}
+
+.variant-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.variant-title {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-tertiary);
+}
+
+.variant-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.variant-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.variant-label {
+  font-size: 14px;
+  width: 24px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.variant-input {
+  flex: 1;
+  padding: 6px 10px !important;
+  font-size: 11px !important;
+}
+
+/* Campaign List */
+.campaign-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.campaign-item {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  backdrop-filter: blur(10px);
+  transition: all var(--transition-fast);
+}
+
+.campaign-item:hover {
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.campaign-name {
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.campaign-notes {
+  font-size: 11px;
+  color: var(--text-tertiary);
+  line-height: 1.4;
+  margin-bottom: 6px;
+}
+
+.campaign-link {
+  font-size: 11px;
+  color: var(--accent-cyan);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.campaign-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 6px;
+  font-size: 10px;
+  color: var(--text-tertiary);
+}
+
+.campaign-actions {
+  display: flex;
+  gap: 4px;
+  margin-top: 8px;
+}
+
+/* Settings */
+.settings-section {
+  margin-bottom: 4px;
+}
+
+.settings-row {
+  display: flex;
+  gap: 8px;
+}
+
+/* Paste flash effect */
+.paste-flash {
+  animation: pasteGlow 0.5s ease;
+}
+
+@keyframes pasteGlow {
+  0% { box-shadow: 0 0 0 0 rgba(0, 184, 148, 0.5); }
+  50% { box-shadow: 0 0 0 4px rgba(0, 184, 148, 0.3); }
+  100% { box-shadow: 0 0 0 0 rgba(0, 184, 148, 0); }
+}

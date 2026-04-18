@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ThreadMine</title>
+  <link rel="stylesheet" href="../shared/ui-components.css">
+  <link rel="stylesheet" href="threadmine.css">
+</head>
+<body>
+  <div class="popup-container">
+    <div class="header">
+      <div class="header-top">
+        <div class="header-title">
+          <span style="font-size: 22px;">⛏️</span>
+          <h1>ThreadMine</h1>
+        </div>
+        <div class="header-utils">
+          <button id="expandBtn" class="expand-btn" title="Open in full tab">⛶</button>
+        </div>
+      </div>
+      <div class="header-ai-row">
+        <select class="model-select" id="provider-select" title="Select AI Provider">
+          <option value="ollama">🦙 Ollama</option>
+          <option value="openai">🤖 OpenAI</option>
+          <option value="anthropic">🧠 Anthropic</option>
+          <option value="cursor">📐 Cursor</option>
+        </select>
+        <select class="model-select" id="model-select" title="Select AI Model">
+          <option value="">Loading...</option>
+        </select>
+        <button class="btn btn-ghost btn-icon" id="btn-api-key" title="Set API Key" style="font-size:14px;display:none;">🔑</button>
+        <div class="ollama-status disconnected" id="ai-status">
+          <span class="status-dot offline"></span>
+          <span>AI</span>
+        </div>
+      </div>
+      <div class="api-key-input-wrap" id="api-key-wrap" style="display:none;">
+        <input type="password" class="input" id="api-key-input" placeholder="Paste API key…" style="padding:6px 10px;font-size:11px;">
+        <button class="btn btn-primary btn-sm" id="btn-save-key" style="padding:6px 12px;font-size:11px;">Save</button>
+      </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tabs">
+      <button class="tab active" data-tab="mine">⛏️ Mine</button>
+      <button class="tab" data-tab="library">📚 Library</button>
+    </div>
+
+    <!-- Mine Tab -->
+    <div class="tab-content active" id="tab-mine">
+      <!-- Platform Badge -->
+      <div class="platform-badge" id="platform-badge">
+        <span class="platform-icon" id="platform-icon">🌐</span>
+        <span class="platform-name" id="platform-name">Detecting page...</span>
+        <span class="comment-count badge badge-purple" id="comment-count" style="display:none;">0 comments</span>
+      </div>
+
+      <!-- Analyze Button -->
+      <button class="btn btn-primary btn-lg analyze-btn" id="btn-analyze" style="width:100%;margin:12px 0;">
+        <span class="analyze-icon">⛏️</span>
+        <span id="analyze-text">Analyze This Page</span>
+      </button>
+
+      <!-- Loading -->
+      <div class="loading-state" id="loading-state" style="display:none;">
+        <div class="spinner"></div>
+        <p class="loading-text">Mining audience insights...</p>
+        <p class="loading-sub">Analyzing comments for patterns & hooks</p>
+      </div>
+
+      <!-- Results -->
+      <div class="results-container" id="results-container" style="display:none;">
+        <!-- Pain Points -->
+        <div class="result-section" id="section-pain-points">
+          <div class="result-header" data-section="pain_points">
+            <span class="result-icon">🔥</span>
+            <span class="result-title">Pain Points</span>
+            <span class="result-count badge badge-red" id="count-pain-points">0</span>
+            <button class="btn btn-ghost btn-sm copy-section" data-section="pain_points" title="Copy">📋</button>
+          </div>
+          <div class="result-items" id="items-pain-points"></div>
+        </div>
+
+        <!-- Hook Ideas -->
+        <div class="result-section" id="section-hook-ideas">
+          <div class="result-header" data-section="hook_ideas">
+            <span class="result-icon">🎣</span>
+            <span class="result-title">Hook Ideas</span>
+            <span class="result-count badge badge-purple" id="count-hook-ideas">0</span>
+            <button class="btn btn-ghost btn-sm copy-section" data-section="hook_ideas" title="Copy">📋</button>
+          </div>
+          <div class="result-items" id="items-hook-ideas"></div>
+        </div>
+
+        <!-- FAQs -->
+        <div class="result-section" id="section-faqs">
+          <div class="result-header" data-section="faqs">
+            <span class="result-icon">❓</span>
+            <span class="result-title">FAQs Detected</span>
+            <span class="result-count badge badge-cyan" id="count-faqs">0</span>
+            <button class="btn btn-ghost btn-sm copy-section" data-section="faqs" title="Copy">📋</button>
+          </div>
+          <div class="result-items" id="items-faqs"></div>
+        </div>
+
+        <!-- Objections -->
+        <div class="result-section" id="section-objections">
+          <div class="result-header" data-section="objections">
+            <span class="result-icon">🛡️</span>
+            <span class="result-title">Objections</span>
+            <span class="result-count badge badge-yellow" id="count-objections">0</span>
+            <button class="btn btn-ghost btn-sm copy-section" data-section="objections" title="Copy">📋</button>
+          </div>
+          <div class="result-items" id="items-objections"></div>
+        </div>
+
+        <!-- Video Angles -->
+        <div class="result-section" id="section-video-angles">
+          <div class="result-header" data-section="video_angles">
+            <span class="result-icon">🎬</span>
+            <span class="result-title">Video / Post Angles</span>
+            <span class="result-count badge badge-green" id="count-video-angles">0</span>
+            <button class="btn btn-ghost btn-sm copy-section" data-section="video_angles" title="Copy">📋</button>
+          </div>
+          <div class="result-items" id="items-video-angles"></div>
+        </div>
+
+        <!-- Carousel Ideas -->
+        <div class="result-section" id="section-carousel-ideas">
+          <div class="result-header" data-section="carousel_ideas">
+            <span class="result-icon">📱</span>
+            <span class="result-title">Carousel / Reel Ideas</span>
+            <span class="result-count badge badge-purple" id="count-carousel-ideas">0</span>
+            <button class="btn btn-ghost btn-sm copy-section" data-section="carousel_ideas" title="Copy">📋</button>
+          </div>
+          <div class="result-items" id="items-carousel-ideas"></div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="result-actions">
+          <button class="btn btn-secondary btn-sm" id="btn-copy-all" title="Copy all results">📋 Copy All</button>
+          <button class="btn btn-primary btn-sm" id="btn-save" title="Save to library">💾 Save</button>
+          <button class="btn btn-secondary btn-sm" id="btn-reanalyze" title="Re-analyze">🔄 Re-analyze</button>
+        </div>
+      </div>
+
+      <!-- Error State -->
+      <div class="error-state" id="error-state" style="display:none;">
+        <div class="empty-state">
+          <div class="empty-state-icon">⚠️</div>
+          <div class="empty-state-title" id="error-title">Analysis Failed</div>
+          <div class="empty-state-text" id="error-text">Something went wrong.</div>
+          <button class="btn btn-secondary btn-sm" id="btn-retry" style="margin-top:12px;">Retry</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Library Tab -->
+    <div class="tab-content" id="tab-library" style="display:none;">
+      <div class="library-search">
+        <input type="text" class="input" id="library-search" placeholder="🔍 Search saved insights...">
+      </div>
+      <div class="library-list" id="library-list">
+        <div class="empty-state">
+          <div class="empty-state-icon">📚</div>
+          <div class="empty-state-title">No saved insights yet</div>
+          <div class="empty-state-text">Mine a thread and save the results to build your library.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="../shared/ollama-client.js"></script>
+  <script src="../shared/ai-client.js"></script>
+  <script src="../shared/storage-utils.js"></script>
+  <script src="threadmine.js"></script>
+  <script src="../shared/split-screen.js"></script>
+</body>
+</html>

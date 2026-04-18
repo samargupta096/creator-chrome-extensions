@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>PostVault</title>
+  <link rel="stylesheet" href="../shared/ui-components.css">
+  <link rel="stylesheet" href="postvault.css">
+</head>
+<body>
+  <div class="popup-container">
+    <div class="header">
+      <div class="header-top">
+        <div class="header-title">
+          <span style="font-size: 22px;">📌</span>
+          <h1>PostVault</h1>
+        </div>
+        <div class="header-utils">
+          <button id="expandBtn" class="expand-btn" title="Open in full tab">⛶</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Search -->
+    <div class="search-bar">
+      <input type="text" class="input" id="search-input" placeholder="🔍 Search snippets...">
+    </div>
+
+    <!-- Tabs -->
+    <div class="tabs">
+      <button class="tab active" data-tab="snippets">📌 Snippets</button>
+      <button class="tab" data-tab="campaigns">📂 Campaigns</button>
+      <button class="tab" data-tab="settings">⚙️ Settings</button>
+    </div>
+
+    <!-- Snippets Tab -->
+    <div class="tab-content active" id="tab-snippets">
+      <!-- Category Filter -->
+      <div class="category-filter" id="category-filter">
+        <button class="cat-btn active" data-cat="all">All</button>
+        <button class="cat-btn" data-cat="hooks">🎣 Hooks</button>
+        <button class="cat-btn" data-cat="ctas">📢 CTAs</button>
+        <button class="cat-btn" data-cat="disclaimers">⚖️ Disclaimers</button>
+        <button class="cat-btn" data-cat="links">🔗 Links</button>
+        <button class="cat-btn" data-cat="uncategorized">📋 Other</button>
+      </div>
+
+      <!-- Snippet List -->
+      <div class="snippet-list" id="snippet-list">
+        <div class="empty-state">
+          <div class="empty-state-icon">📌</div>
+          <div class="empty-state-title">No snippets yet</div>
+          <div class="empty-state-text">Add your first reusable hook, CTA, or link below.</div>
+        </div>
+      </div>
+
+      <!-- Add Snippet -->
+      <div class="add-snippet-area">
+        <button class="btn btn-primary" id="btn-add-snippet" style="width:100%;">
+          <span>+</span> Add Snippet
+        </button>
+      </div>
+
+      <!-- Add Form (hidden by default) -->
+      <div class="add-form card" id="add-form" style="display:none;">
+        <div class="card-title" style="margin-bottom:10px;">New Snippet</div>
+        <textarea class="input" id="new-snippet-text" placeholder="Your reusable text..." rows="3" style="margin-bottom:8px;"></textarea>
+        <select class="input" id="new-snippet-category" style="margin-bottom:8px;">
+          <option value="hooks">🎣 Hook</option>
+          <option value="ctas">📢 CTA</option>
+          <option value="disclaimers">⚖️ Disclaimer</option>
+          <option value="links">🔗 Link</option>
+          <option value="uncategorized">📋 Other</option>
+        </select>
+        <input type="text" class="input" id="new-snippet-tags" placeholder="Tags (comma-separated)..." style="margin-bottom:8px;">
+
+        <!-- Platform Variants -->
+        <div class="variant-section">
+          <div class="variant-header">
+            <span class="variant-title">Platform Variants (optional)</span>
+            <button class="btn btn-ghost btn-sm" id="btn-toggle-variants">+ Add</button>
+          </div>
+          <div class="variant-fields" id="variant-fields" style="display:none;">
+            <div class="variant-row">
+              <span class="variant-label">𝕏</span>
+              <input type="text" class="input variant-input" data-platform="x" placeholder="X / Twitter version...">
+            </div>
+            <div class="variant-row">
+              <span class="variant-label">🔵</span>
+              <input type="text" class="input variant-input" data-platform="linkedin" placeholder="LinkedIn version...">
+            </div>
+            <div class="variant-row">
+              <span class="variant-label">📸</span>
+              <input type="text" class="input variant-input" data-platform="instagram" placeholder="Instagram version...">
+            </div>
+          </div>
+        </div>
+
+        <div class="add-form-actions">
+          <button class="btn btn-secondary btn-sm" id="btn-cancel-add">Cancel</button>
+          <button class="btn btn-primary btn-sm" id="btn-save-snippet">Save Snippet</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Campaigns Tab -->
+    <div class="tab-content" id="tab-campaigns" style="display:none;">
+      <div class="campaign-list" id="campaign-list">
+        <div class="empty-state">
+          <div class="empty-state-icon">📂</div>
+          <div class="empty-state-title">No campaigns yet</div>
+          <div class="empty-state-text">Group related snippets, links, and notes into campaigns.</div>
+        </div>
+      </div>
+      <button class="btn btn-primary" id="btn-add-campaign" style="width:100%;margin-top:12px;">
+        <span>+</span> New Campaign
+      </button>
+      <div class="add-form card" id="campaign-form" style="display:none;margin-top:12px;">
+        <input type="text" class="input" id="new-campaign-name" placeholder="Campaign name..." style="margin-bottom:8px;">
+        <textarea class="input" id="new-campaign-notes" placeholder="Campaign notes..." rows="2" style="margin-bottom:8px;"></textarea>
+        <input type="text" class="input" id="new-campaign-link" placeholder="Landing page URL (optional)..." style="margin-bottom:8px;">
+        <div class="add-form-actions">
+          <button class="btn btn-secondary btn-sm" id="btn-cancel-campaign">Cancel</button>
+          <button class="btn btn-primary btn-sm" id="btn-save-campaign">Create</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Settings Tab -->
+    <div class="tab-content" id="tab-settings" style="display:none;">
+      <div class="settings-section card">
+        <div class="card-title" style="margin-bottom:12px;">📦 Data Management</div>
+        <div class="settings-row">
+          <button class="btn btn-secondary btn-sm" id="btn-export" style="flex:1;">📤 Export JSON</button>
+          <button class="btn btn-secondary btn-sm" id="btn-import" style="flex:1;">📥 Import JSON</button>
+        </div>
+        <input type="file" id="import-file" accept=".json" style="display:none;">
+      </div>
+      <div class="settings-section card" style="margin-top:8px;">
+        <div class="card-title" style="margin-bottom:12px;">📊 Stats</div>
+        <div class="grid grid-3">
+          <div class="stat-card card">
+            <div class="stat-value" id="stat-total">0</div>
+            <div class="stat-label">Snippets</div>
+          </div>
+          <div class="stat-card card">
+            <div class="stat-value" id="stat-campaigns">0</div>
+            <div class="stat-label">Campaigns</div>
+          </div>
+          <div class="stat-card card">
+            <div class="stat-value" id="stat-pastes">0</div>
+            <div class="stat-label">Pastes</div>
+          </div>
+        </div>
+      </div>
+      <div class="settings-section card" style="margin-top:8px;">
+        <div class="card-title" style="margin-bottom:8px;color:var(--accent-red);">⚠️ Danger Zone</div>
+        <button class="btn btn-danger btn-sm" id="btn-clear-all">Clear All Data</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="../shared/storage-utils.js"></script>
+  <script src="postvault.js"></script>
+  <script src="../shared/split-screen.js"></script>
+</body>
+</html>

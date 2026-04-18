@@ -1,0 +1,357 @@
+/* ContentCal — Extension-specific styles */
+
+/* Override accent to Orange for ContentCal branding */
+.header-title h1 {
+  background: linear-gradient(135deg, var(--text-primary), #e17055) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+}
+
+/* ─── Streak Bar ─── */
+.streak-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 8px 0 4px;
+  margin-top: 4px;
+  border-top: 1px solid var(--border-color);
+}
+
+.streak-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  color: var(--text-tertiary);
+}
+
+.streak-flame {
+  font-size: 14px;
+}
+
+.streak-value {
+  font-weight: 800;
+  font-size: 14px;
+  color: var(--text-primary);
+}
+
+.streak-label {
+  font-size: 10px;
+  color: var(--text-tertiary);
+}
+
+/* ─── Week Navigator ─── */
+.week-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.week-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-secondary);
+}
+
+/* ─── Week Grid ─── */
+.week-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+}
+
+.day-cell {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  padding: 6px 4px;
+  min-height: 60px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  position: relative;
+}
+
+.day-cell:hover {
+  border-color: rgba(255, 255, 255, 0.15);
+  background: var(--bg-card-hover);
+}
+
+.day-cell.today {
+  border-color: #e17055;
+  box-shadow: 0 0 0 1px rgba(225, 112, 85, 0.2);
+}
+
+.day-cell.has-posts {
+  border-color: rgba(108, 92, 231, 0.3);
+}
+
+.day-header {
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 2px;
+}
+
+.day-number {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+}
+
+.day-cell.today .day-number {
+  color: #e17055;
+}
+
+.day-dots {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+}
+
+.day-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.day-dot.youtube { background: #ff0000; }
+.day-dot.x { background: #ffffff; }
+.day-dot.linkedin { background: #0a66c2; }
+.day-dot.instagram { background: #e1306c; }
+.day-dot.threads { background: #ffffff; opacity: 0.6; }
+.day-dot.other { background: #636e72; }
+
+/* ─── Filter Row ─── */
+.filter-row {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.filter-select {
+  flex: 1;
+  padding: 6px 8px !important;
+  font-size: 11px !important;
+}
+
+/* ─── Post List ─── */
+.post-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-height: 380px;
+  overflow-y: auto;
+}
+
+.post-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  backdrop-filter: blur(10px);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  animation: slideUp 0.3s ease both;
+}
+
+.post-item:hover {
+  border-color: rgba(255, 255, 255, 0.12);
+  background: var(--bg-card-hover);
+}
+
+.post-item:nth-child(1) { animation-delay: 0.02s; }
+.post-item:nth-child(2) { animation-delay: 0.04s; }
+.post-item:nth-child(3) { animation-delay: 0.06s; }
+.post-item:nth-child(4) { animation-delay: 0.08s; }
+.post-item:nth-child(5) { animation-delay: 0.10s; }
+
+.post-platform-icon {
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+.post-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.post-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.post-meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+  color: var(--text-tertiary);
+  margin-top: 2px;
+}
+
+.post-status-badge {
+  padding: 1px 8px;
+  border-radius: 12px;
+  font-size: 10px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.post-status-badge.idea { background: rgba(253, 203, 110, 0.15); color: #fdcb6e; }
+.post-status-badge.drafting { background: rgba(108, 92, 231, 0.15); color: var(--accent-purple-light); }
+.post-status-badge.scheduled { background: rgba(0, 184, 148, 0.15); color: var(--accent-green); }
+.post-status-badge.published { background: rgba(0, 206, 209, 0.15); color: var(--accent-cyan); }
+
+/* ─── Analytics ─── */
+.analytics-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+
+.platform-breakdown {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.platform-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.platform-icon {
+  font-size: 14px;
+  width: 20px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.platform-bar-wrap {
+  flex: 1;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.platform-bar {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.5s ease;
+}
+
+.platform-bar.youtube { background: linear-gradient(90deg, #ff0000, #ff4444); }
+.platform-bar.x { background: linear-gradient(90deg, #888, #ccc); }
+.platform-bar.linkedin { background: linear-gradient(90deg, #0a66c2, #4d9de0); }
+.platform-bar.instagram { background: linear-gradient(90deg, #e1306c, #f77737); }
+.platform-bar.threads { background: linear-gradient(90deg, #aaa, #ddd); }
+.platform-bar.other { background: linear-gradient(90deg, #636e72, #b2bec3); }
+
+.platform-count {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-secondary);
+  min-width: 20px;
+  text-align: right;
+}
+
+/* ─── Heatmap ─── */
+.heatmap {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 3px;
+}
+
+.heatmap-cell {
+  aspect-ratio: 1;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.03);
+  transition: background 0.3s ease;
+}
+
+.heatmap-cell.level-1 { background: rgba(225, 112, 85, 0.2); }
+.heatmap-cell.level-2 { background: rgba(225, 112, 85, 0.4); }
+.heatmap-cell.level-3 { background: rgba(225, 112, 85, 0.65); }
+.heatmap-cell.level-4 { background: rgba(225, 112, 85, 0.9); }
+
+/* ─── Settings ─── */
+.settings-section {
+  margin-bottom: 4px;
+}
+
+.settings-row {
+  display: flex;
+  gap: 8px;
+}
+
+/* ─── Modal ─── */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  animation: fadeIn 0.2s ease;
+}
+
+.modal {
+  width: 100%;
+  max-width: 380px;
+  max-height: 80vh;
+  overflow-y: auto;
+  animation: slideUp 0.3s ease;
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.modal-body {
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-row {
+  display: flex;
+  gap: 6px;
+}
+
+.modal-footer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border-color);
+}
+
+.perf-section {
+  border-top: 1px solid var(--border-color);
+  padding-top: 4px;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" class="split-mode">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LaunchCheck — Full View</title>
+  <link rel="stylesheet" href="shared/ui-components.css">
+  <link rel="stylesheet" href="popup/launchcheck.css">
+  <link rel="stylesheet" href="shared/split-screen.css">
+</head>
+<body>
+  <div class="split-container">
+    <div class="split-left">
+      <div class="popup-container">
+        <div class="header">
+          <div class="header-top">
+            <div class="header-title"><span style="font-size:22px;">🚀</span><h1>LaunchCheck</h1></div>
+            <div class="header-utils"><button id="expandBtn" class="expand-btn" title="Open in full tab">⛶</button></div>
+          </div>
+          <div class="header-ai-row">
+            <select class="model-select" id="provider-select"><option value="ollama">🦙 Ollama</option><option value="openai">🤖 OpenAI</option><option value="anthropic">🧠 Anthropic</option><option value="cursor">📐 Cursor</option></select>
+            <select class="model-select" id="model-select"><option value="">Loading...</option></select>
+            <button class="btn btn-ghost btn-icon" id="btn-api-key" title="Set API Key" style="font-size:14px;display:none;">🔑</button>
+            <div class="ollama-status disconnected" id="ai-status"><span class="status-dot offline"></span><span>AI</span></div>
+          </div>
+          <div class="api-key-input-wrap" id="api-key-wrap" style="display:none;">
+            <input type="password" class="input" id="api-key-input" placeholder="Paste API key…" style="padding:6px 10px;font-size:11px;">
+            <button class="btn btn-primary btn-sm" id="btn-save-key" style="padding:6px 12px;font-size:11px;">Save</button>
+          </div>
+        </div>
+        <div class="tabs">
+          <button class="tab active" data-tab="check">🚀 Check</button>
+          <button class="tab" data-tab="checklist">✅ Checklist</button>
+          <button class="tab" data-tab="history">📊 History</button>
+        </div>
+        <div class="tab-content active" id="tab-check">
+          <div class="video-info card" id="video-info"><div class="video-title" id="video-title">Navigate to YouTube Studio or a YouTube video</div><div class="video-source" id="video-source"><span class="badge badge-yellow">No video detected</span></div></div>
+          <div class="manual-input card" id="manual-input"><div class="card-title" style="margin-bottom:10px;">Or enter manually:</div><input type="text" class="input" id="input-title" placeholder="Video title..." style="margin-bottom:8px;"><textarea class="input" id="input-description" placeholder="First 2 sentences / hook..." rows="2" style="margin-bottom:8px;"></textarea><input type="text" class="input" id="input-thumb-text" placeholder="Text on thumbnail (optional)..."></div>
+          <button class="btn btn-primary btn-lg" id="btn-check" style="width:100%;margin:12px 0;"><span>🚀</span><span id="check-text">Run LaunchCheck</span></button>
+          <div class="loading-state" id="loading-state" style="display:none;"><div class="spinner"></div><p class="loading-text">Analyzing packaging...</p><p class="loading-sub">Checking title · thumbnail · hook alignment</p></div>
+          <div class="results-container" id="results-container" style="display:none;">
+            <div class="score-hero"><div class="score-ring" id="score-ring"><svg viewBox="0 0 120 120"><circle class="score-bg" cx="60" cy="60" r="50"/><circle class="score-fill" id="score-circle" cx="60" cy="60" r="50"/></svg><div class="score-value" id="score-value">--</div><div class="score-label">Promise Match</div></div><div class="score-grade" id="score-grade">--</div></div>
+            <div class="score-reasoning" id="score-reasoning"></div>
+            <div class="risk-banner card" id="risk-banner" style="display:none;"><span class="risk-icon">⚠️</span><span class="risk-text" id="risk-text"></span></div>
+            <div class="result-card card" id="section-hook"><div class="card-header"><span class="card-title">🎣 Hook Clarity</span><span class="badge badge-purple" id="hook-score">--</span></div><div class="issues-list" id="hook-issues"></div><div class="suggestion-box" id="hook-suggestion"></div></div>
+            <div class="result-card card" id="section-titles"><div class="card-header"><span class="card-title">✏️ Title Rewrites</span><span class="badge badge-cyan" id="title-score">--</span></div><div class="issues-list" id="title-issues"></div><div class="rewrites-list" id="title-rewrites"></div></div>
+            <div class="result-card card" id="section-thumb"><div class="card-header"><span class="card-title">🖼️ Thumbnail Feedback</span><span class="badge" id="thumb-readability">--</span></div><div class="issues-list" id="thumb-issues"></div><div class="suggestions-list" id="thumb-suggestions"></div></div>
+            <div class="result-actions"><button class="btn btn-secondary btn-sm" id="btn-copy-report">📋 Copy Report</button><button class="btn btn-primary btn-sm" id="btn-save-check">💾 Save</button><button class="btn btn-secondary btn-sm" id="btn-recheck">🔄 Re-check</button></div>
+          </div>
+          <div class="error-state" id="error-state" style="display:none;"><div class="empty-state"><div class="empty-state-icon">⚠️</div><div class="empty-state-title" id="error-title">Check Failed</div><div class="empty-state-text" id="error-text">Something went wrong.</div><button class="btn btn-secondary btn-sm" id="btn-retry" style="margin-top:12px;">Retry</button></div></div>
+        </div>
+        <div class="tab-content" id="tab-checklist" style="display:none;">
+          <div class="checklist-container" id="checklist-container">
+            <div class="checklist-item" data-check="title_length"><span class="check-icon" id="check-title-length">⬜</span><div class="check-info"><div class="check-label">Title under 60 characters</div><div class="check-detail" id="detail-title-length">Prevents truncation on mobile</div></div></div>
+            <div class="checklist-item" data-check="curiosity"><span class="check-icon" id="check-curiosity">⬜</span><div class="check-info"><div class="check-label">Title has curiosity gap</div><div class="check-detail">Makes viewers want to find out more</div></div></div>
+            <div class="checklist-item" data-check="description_keywords"><span class="check-icon" id="check-desc-keywords">⬜</span><div class="check-info"><div class="check-label">Description has keywords</div><div class="check-detail">First 150 chars should include primary keyword</div></div></div>
+            <div class="checklist-item" data-check="thumb_text"><span class="check-icon" id="check-thumb-text">⬜</span><div class="check-info"><div class="check-label">Thumbnail text ≤ 3 words</div><div class="check-detail">Readable at small sizes on mobile</div></div></div>
+            <div class="checklist-item" data-check="alignment"><span class="check-icon" id="check-alignment">⬜</span><div class="check-info"><div class="check-label">Title & thumbnail aligned</div><div class="check-detail">Both tell the same story / promise</div></div></div>
+            <div class="checklist-item manual-check" data-check="end_screen"><span class="check-icon clickable" id="check-end-screen">⬜</span><div class="check-info"><div class="check-label">End screen added</div><div class="check-detail">Click to toggle</div></div></div>
+            <div class="checklist-item manual-check" data-check="cards"><span class="check-icon clickable" id="check-cards">⬜</span><div class="check-info"><div class="check-label">Cards placed</div><div class="check-detail">Click to toggle</div></div></div>
+            <div class="checklist-item manual-check" data-check="pinned_comment"><span class="check-icon clickable" id="check-pinned">⬜</span><div class="check-info"><div class="check-label">Pinned comment drafted</div><div class="check-detail">Click to toggle</div></div></div>
+            <div class="checklist-item manual-check" data-check="timestamps"><span class="check-icon clickable" id="check-timestamps">⬜</span><div class="check-info"><div class="check-label">Description has timestamps</div><div class="check-detail">Click to toggle</div></div></div>
+          </div>
+          <div class="checklist-score" id="checklist-score"><span class="checklist-score-value" id="checklist-score-value">0/9</span><span class="checklist-score-label">items checked</span></div>
+        </div>
+        <div class="tab-content" id="tab-history" style="display:none;">
+          <div class="history-list" id="history-list"><div class="empty-state"><div class="empty-state-icon">📊</div><div class="empty-state-title">No checks yet</div><div class="empty-state-text">Run a LaunchCheck to see your history here.</div></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="split-divider"></div>
+    <div class="split-right">
+      <div class="split-toolbar">
+        <div class="split-tab-group"><button class="split-btn active" data-split-tab="browse">🌐 Browse</button><button class="split-btn" data-split-tab="notes">📝 Notes</button></div>
+        <input type="text" class="url-bar" placeholder="Enter URL to preview..." value="">
+        <button class="split-btn" id="splitGoBtn">Go →</button>
+      </div>
+      <div class="split-iframe-wrap">
+        <div class="split-empty"><div class="split-empty-icon">🌐</div><div class="split-empty-title">Web Preview</div><div class="split-empty-text">Enter a URL above to load a page side-by-side.</div></div>
+        <iframe id="splitIframe" style="display:none;" sandbox="allow-scripts allow-same-origin allow-forms allow-popups"></iframe>
+      </div>
+      <div class="split-notes"><div class="split-notes-header"><span class="split-notes-title">Scratch Notes</span></div><textarea id="splitNotes" placeholder="Quick notes while you work..."></textarea></div>
+    </div>
+  </div>
+  <script src="shared/ollama-client.js"></script>
+  <script src="shared/ai-client.js"></script>
+  <script src="shared/storage-utils.js"></script>
+  <script src="popup/launchcheck.js"></script>
+  <script src="shared/split-screen.js"></script>
+</body>
+</html>

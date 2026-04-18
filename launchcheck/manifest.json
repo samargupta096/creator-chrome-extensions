@@ -1,0 +1,50 @@
+{
+  "manifest_version": 3,
+  "name": "LaunchCheck — YouTube Pre-Publish Validator",
+  "version": "1.0.0",
+  "description": "Catch weak titles, misaligned thumbnails, and bad hooks before your YouTube video goes live.",
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "permissions": [
+    "activeTab",
+    "storage",
+    "declarativeNetRequest",
+    "tabs",
+    "sidePanel"
+  ],
+  "host_permissions": [
+    "http://127.0.0.1:11434/*",
+    "https://api.openai.com/*",
+    "https://api.anthropic.com/*",
+    "https://api.cursor.com/*"
+  ],
+  "background": {
+    "service_worker": "background/service-worker.js"
+  },
+  "options_page": "fullpage.html",
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://studio.youtube.com/*",
+        "https://www.youtube.com/*"
+      ],
+      "js": [
+        "content/yt-studio-injector.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+  "side_panel": {
+    "default_path": "popup/popup.html"
+  }
+}

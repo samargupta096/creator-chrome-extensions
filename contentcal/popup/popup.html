@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ContentCal</title>
+  <link rel="stylesheet" href="../shared/ui-components.css">
+  <link rel="stylesheet" href="contentcal.css">
+</head>
+<body>
+  <div class="popup-container">
+    <div class="header">
+      <div class="header-top">
+        <div class="header-title">
+          <span style="font-size: 22px;">📅</span>
+          <h1>ContentCal</h1>
+        </div>
+        <div class="header-utils">
+          <button id="expandBtn" class="expand-btn" title="Open in side panel">⛶</button>
+        </div>
+      </div>
+      <!-- Streak & Stats Bar -->
+      <div class="streak-bar">
+        <div class="streak-item">
+          <span class="streak-flame">🔥</span>
+          <span class="streak-value" id="streak-value">0</span>
+          <span class="streak-label">day streak</span>
+        </div>
+        <div class="streak-item">
+          <span class="streak-value" id="week-count">0</span>
+          <span class="streak-label">this week</span>
+        </div>
+        <div class="streak-item">
+          <span class="streak-value" id="month-count">0</span>
+          <span class="streak-label">this month</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tabs">
+      <button class="tab active" data-tab="calendar">📅 Calendar</button>
+      <button class="tab" data-tab="posts">📝 Posts</button>
+      <button class="tab" data-tab="analytics">📊 Analytics</button>
+      <button class="tab" data-tab="settings">⚙️ Settings</button>
+    </div>
+
+    <!-- Calendar Tab -->
+    <div class="tab-content active" id="tab-calendar">
+      <!-- Week Navigator -->
+      <div class="week-nav">
+        <button class="btn btn-ghost btn-sm" id="btn-prev-week">← Prev</button>
+        <span class="week-label" id="week-label">This Week</span>
+        <button class="btn btn-ghost btn-sm" id="btn-next-week">Next →</button>
+      </div>
+
+      <!-- Week Grid -->
+      <div class="week-grid" id="week-grid">
+        <!-- Days rendered by JS -->
+      </div>
+
+      <!-- Quick Add -->
+      <button class="btn btn-primary" id="btn-quick-add" style="width:100%; margin-top:12px;">
+        <span>+</span> Plan Content
+      </button>
+    </div>
+
+    <!-- Posts Tab -->
+    <div class="tab-content" id="tab-posts" style="display:none;">
+      <!-- Filter Row -->
+      <div class="filter-row">
+        <select class="input filter-select" id="filter-status">
+          <option value="all">All Status</option>
+          <option value="idea">💡 Idea</option>
+          <option value="drafting">✏️ Drafting</option>
+          <option value="scheduled">📅 Scheduled</option>
+          <option value="published">✅ Published</option>
+        </select>
+        <select class="input filter-select" id="filter-platform">
+          <option value="all">All Platforms</option>
+          <option value="youtube">▶️ YouTube</option>
+          <option value="x">𝕏 X / Twitter</option>
+          <option value="linkedin">🔵 LinkedIn</option>
+          <option value="instagram">📸 Instagram</option>
+          <option value="threads">🧵 Threads</option>
+          <option value="other">📄 Other</option>
+        </select>
+      </div>
+
+      <!-- Post List -->
+      <div class="post-list" id="post-list">
+        <div class="empty-state">
+          <div class="empty-state-icon">📅</div>
+          <div class="empty-state-title">No content planned</div>
+          <div class="empty-state-text">Hit "+ Plan Content" to get started.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Analytics Tab -->
+    <div class="tab-content" id="tab-analytics" style="display:none;">
+      <div class="analytics-grid">
+        <div class="stat-card card">
+          <div class="stat-value" id="stat-total-posts">0</div>
+          <div class="stat-label">Total Posts</div>
+        </div>
+        <div class="stat-card card">
+          <div class="stat-value" id="stat-published">0</div>
+          <div class="stat-label">Published</div>
+        </div>
+        <div class="stat-card card">
+          <div class="stat-value" id="stat-completion">0%</div>
+          <div class="stat-label">Completion</div>
+        </div>
+        <div class="stat-card card">
+          <div class="stat-value" id="stat-best-platform">—</div>
+          <div class="stat-label">Top Platform</div>
+        </div>
+      </div>
+
+      <!-- Platform Breakdown -->
+      <div class="card" style="margin-top:12px;">
+        <div class="card-title" style="margin-bottom:10px;">Platform Breakdown</div>
+        <div class="platform-breakdown" id="platform-breakdown">
+          <!-- Rendered by JS -->
+        </div>
+      </div>
+
+      <!-- Posting Heatmap -->
+      <div class="card" style="margin-top:12px;">
+        <div class="card-title" style="margin-bottom:10px;">Publishing Activity (Last 4 Weeks)</div>
+        <div class="heatmap" id="heatmap">
+          <!-- Rendered by JS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Settings Tab -->
+    <div class="tab-content" id="tab-settings" style="display:none;">
+      <div class="settings-section card">
+        <div class="card-title" style="margin-bottom:12px;">📦 Data Management</div>
+        <div class="settings-row">
+          <button class="btn btn-secondary btn-sm" id="btn-export" style="flex:1;">📤 Export</button>
+          <button class="btn btn-secondary btn-sm" id="btn-import" style="flex:1;">📥 Import</button>
+        </div>
+        <input type="file" id="import-file" accept=".json" style="display:none;">
+      </div>
+      <div class="settings-section card" style="margin-top:8px;">
+        <div class="card-title" style="margin-bottom:8px; color:var(--accent-red);">⚠️ Danger Zone</div>
+        <button class="btn btn-danger btn-sm" id="btn-clear-all">Clear All Data</button>
+      </div>
+    </div>
+
+    <!-- Add/Edit Post Modal -->
+    <div class="modal-overlay" id="post-modal" style="display:none;">
+      <div class="modal card">
+        <div class="modal-header">
+          <span class="card-title" id="modal-title">Plan Content</span>
+          <button class="btn btn-ghost btn-sm" id="btn-close-modal">✕</button>
+        </div>
+        <div class="modal-body">
+          <input type="text" class="input" id="post-title-input" placeholder="Content title or topic..." style="margin-bottom:8px;">
+          <div class="modal-row">
+            <select class="input" id="post-platform-input" style="flex:1;">
+              <option value="youtube">▶️ YouTube</option>
+              <option value="x">𝕏 X / Twitter</option>
+              <option value="linkedin">🔵 LinkedIn</option>
+              <option value="instagram">📸 Instagram</option>
+              <option value="threads">🧵 Threads</option>
+              <option value="other">📄 Other</option>
+            </select>
+            <select class="input" id="post-status-input" style="flex:1;">
+              <option value="idea">💡 Idea</option>
+              <option value="drafting">✏️ Drafting</option>
+              <option value="scheduled">📅 Scheduled</option>
+              <option value="published">✅ Published</option>
+            </select>
+          </div>
+          <input type="datetime-local" class="input" id="post-date-input" style="margin-top:8px;">
+          <textarea class="input" id="post-notes-input" placeholder="Notes, hook ideas, links..." rows="3" style="margin-top:8px;"></textarea>
+
+          <!-- Performance (visible for published posts) -->
+          <div class="perf-section" id="perf-section" style="display:none;">
+            <div class="card-title" style="margin:12px 0 8px; font-size:11px;">📊 Performance Notes</div>
+            <div class="modal-row">
+              <input type="text" class="input" id="post-views" placeholder="Views" style="flex:1;">
+              <input type="text" class="input" id="post-engagement" placeholder="Engagement" style="flex:1;">
+            </div>
+            <input type="text" class="input" id="post-takeaway" placeholder="Key takeaway for next time..." style="margin-top:8px;">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary btn-sm" id="btn-delete-post" style="display:none;">🗑️ Delete</button>
+          <div style="flex:1;"></div>
+          <button class="btn btn-secondary btn-sm" id="btn-cancel-modal">Cancel</button>
+          <button class="btn btn-primary btn-sm" id="btn-save-post">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="../shared/storage-utils.js"></script>
+  <script src="contentcal.js"></script>
+  <script src="../shared/split-screen.js"></script>
+</body>
+</html>

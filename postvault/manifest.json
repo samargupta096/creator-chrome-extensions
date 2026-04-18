@@ -1,0 +1,51 @@
+{
+  "manifest_version": 3,
+  "name": "PostVault — Creator Snippet Manager",
+  "version": "1.0.0",
+  "description": "Store reusable hooks, CTAs, links, and campaign notes — paste into any platform in one click.",
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "permissions": [
+    "activeTab",
+    "storage",
+    "contextMenus",
+    "tabs",
+    "sidePanel",
+    "clipboardWrite"
+  ],
+  "background": {
+    "service_worker": "background/service-worker.js"
+  },
+  "options_page": "fullpage.html",
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://x.com/*",
+        "https://twitter.com/*",
+        "https://www.linkedin.com/*",
+        "https://www.instagram.com/*",
+        "https://www.youtube.com/*",
+        "https://studio.youtube.com/*",
+        "https://www.facebook.com/*",
+        "https://www.threads.net/*"
+      ],
+      "js": [
+        "content/paste-injector.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+  "side_panel": {
+    "default_path": "popup/popup.html"
+  }
+}
