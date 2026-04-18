@@ -86,12 +86,19 @@
   // ─── LinkedIn Extractor ───
   function extractLinkedIn() {
     const comments = [];
-    document.querySelectorAll('.comments-comment-item__main-content, .feed-shared-update-v2__commentary, .update-components-text').forEach(el => {
+    document.querySelectorAll('.comments-comment-item__main-content, .feed-shared-update-v2__commentary, .update-components-text, .feed-shared-text, .feed-shared-text-view, [data-test-id="main-feed-activity-card"] span[dir="ltr"]').forEach(el => {
       const text = el.innerText?.trim();
-      if (text && text.length > 10) comments.push(text);
+      if (text && text.length > 10 && !comments.includes(text)) comments.push(text);
     });
 
-    const title = document.querySelector('.feed-shared-update-v2__description, .update-components-text')?.innerText?.trim()?.slice(0, 100) || document.title;
+    if (comments.length === 0) {
+      document.querySelectorAll('.feed-shared-update-v2, .occludable-update, article, .feed-shared-update-v2__content').forEach(card => {
+        const text = card.innerText?.trim();
+        if (text && text.length > 20 && !comments.includes(text)) comments.push(text);
+      });
+    }
+
+    const title = document.querySelector('.feed-shared-update-v2__description, .update-components-text, .feed-shared-text')?.innerText?.trim()?.slice(0, 100) || document.title;
     return { platform: 'linkedin', title, comments: comments.slice(0, 100) };
   }
 
